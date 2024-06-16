@@ -22,3 +22,5 @@ Estou explorando métodos de teste para prevenir overfitting e melhorar a acurá
 ## Conclusão
 
 Posso reutilizar os trabalhos existentes sobre mutações e focar na métrica TIC para melhorar as predições no modelo Codan, mantendo a análise detalhada de mutações e codons de parada como base para aumentar a precisão dos modelos preditivos.
+
+Especificação de Software: https://docs.google.com/document/d/1qmJJahj5flkwvH4rx036qLaEHlBHXYmT/edit?usp=sharing&ouid=116786936594225711722&rtpof=true&sd=true 
