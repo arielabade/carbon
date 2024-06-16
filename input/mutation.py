@@ -1,0 +1,1 @@
+# randomiação de sequencias, pré processamento dos dados para treino e teste, definição de amostragem das cadeias, leitura das cadeias na ordem normal e na ordem inversa.

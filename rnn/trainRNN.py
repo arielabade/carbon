@@ -1,0 +1,1 @@
+#   entradas de treino e definição dos argumentos da RNN (precisam ser iguais ao de teste)

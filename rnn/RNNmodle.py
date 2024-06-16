@@ -1,0 +1,1 @@
+# modelo que de fato roda a RNN

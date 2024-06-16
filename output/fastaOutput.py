@@ -1,0 +1,1 @@
+# possibilidade de desfazer as máscaras e retornar as cadeias codificantes e descodificantes de acordo com o que foi estabelecido.

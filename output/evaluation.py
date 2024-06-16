@@ -1,0 +1,1 @@
+# avaliação do modelo de acordo com o teste, treino e as métricas de desempenho (scores)

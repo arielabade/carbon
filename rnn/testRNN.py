@@ -1,0 +1,1 @@
+# entradas de teste e definição dos argumentos da RNN (precisam ser iguais ao de treino) -> os parâmetros são definidos aqui, através da avaliação de pacotes
