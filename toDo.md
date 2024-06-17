@@ -32,3 +32,7 @@
 - [ ] **Branches para Código**
   - [ ] Criar um branch para o código principal.
   - [ ] Criar branches adicionais para operações intermediárias, como data augmentation.
+
+
+
+- [ ] Estudar sobre gerenciamento de pacotes : https://github.com/arielabade/bioinfoCodan/blob/gabes/rnn.py
