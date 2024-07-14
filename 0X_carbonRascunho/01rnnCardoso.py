@@ -61,7 +61,7 @@ def fasta_to_dict(file, encoding=None): ##conversão do cabeçalho
             # sequences_dict[sequence] = is_exon
     return sequences_dict
 
-print(fasta_to_dict("./hbb-test.fa", encoding="ONE_HOT"))
+print(fasta_to_dict("/home/ariel/carbon/0X_carbonRascunho/hbb-test.fa", encoding="ONE_HOT"))
 #sequences, headers = fasta_to_list('./bin/models/VERT_full/dataset/train.fa') # exemplo qualquer para fins de teste
 
 def binary_annotated_fasta(fasta_file, annotation_file):

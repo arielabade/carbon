@@ -21,7 +21,7 @@ def fasta_to_list(file):
    return sequences, labels
 
 # Carregar as sequências
-sequences, labels = fasta_to_list("./hbb-test.fa")
+sequences, labels = fasta_to_list("0X_carbonRascunho/hbb-test.fa")
 
 # Mapeamento de bases para índices
 vocab = ["A", "C", "G", "T"]
