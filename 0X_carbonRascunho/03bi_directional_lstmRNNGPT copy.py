@@ -1,5 +1,5 @@
 import tensorflow as tf
-from tensorflow.keras.layers import Embedding, LSTM, Dense, Dropout
+from tensorflow.keras.layers import Embedding, LSTM, Bidirectional, Dense, Dropout
 from tensorflow.keras.models import Sequential
 from Bio import SeqIO
 import numpy as np
@@ -19,15 +19,16 @@ def fasta_to_list(file):
    return sequences, labels
 
 # Carregar as sequências
-sequences, labels = fasta_to_list("./ttn-test.fa")
+sequences, labels = fasta_to_list("0X_carbonRascunho/hbb-test.fa")
 
 # Mapeamento de bases para índices
 vocab = ["A", "C", "G", "T"]
 base_to_index = {base: i for i, base in enumerate(vocab)}
+base_to_index['N'] = len(vocab)  # Adicionar mapeamento para 'N' e bases desconhecidas
 
 # Função para converter sequências em índices
 def sequence_to_indices(sequence):
-   return [base_to_index[base] for base in sequence]
+   return [base_to_index.get(base, len(vocab)) for base in sequence]  # Usar o índice especial para bases desconhecidas
 
 # Converter as sequências para índices
 indexed_sequences = [sequence_to_indices(seq) for seq in sequences]
@@ -37,18 +38,20 @@ max_len = max(len(seq) for seq in indexed_sequences)
 padded_sequences = pad_sequences(indexed_sequences, maxlen=max_len, padding='post')
 
 # Definir parâmetros para embedding
-vocab_size = len(vocab)
+vocab_size = len(vocab) + 1  # Adicionar 1 para o índice especial
 embedding_dim = 4
 
 # Dividir os dados em treinamento e teste
 X_train, X_test, y_train, y_test = train_test_split(padded_sequences, np.array(labels), test_size=0.2, random_state=42)
 
-# Criar e treinar o modelo LSTM com embedding
+# Criar e treinar o modelo Bi-LSTM com embedding
 model = Sequential([
    Embedding(input_dim=vocab_size, output_dim=embedding_dim, input_length=max_len),
-   LSTM(64, return_sequences=True),
+   Bidirectional(LSTM(64, return_sequences=True)),
    Dropout(0.5),
-   LSTM(32),
+   Bidirectional(LSTM(32)),
+   Dense(64, activation='relu'),
+   Dropout(0.5),
    Dense(1, activation='sigmoid')
 ])
 
