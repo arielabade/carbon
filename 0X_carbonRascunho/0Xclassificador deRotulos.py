@@ -37,7 +37,7 @@ def ler_sequencias_do_arquivo(file_name):
     return sequencias
 
 # Exemplo de uso:
-file_name = "0X_carbonRascunho/GADPH_test.fa"  # Coloque aqui o nome do seu arquivo
+file_name = "0X_carbonRascunho/hbb-test.fa"  # Coloque aqui o nome do seu arquivo
 sequencias = ler_sequencias_do_arquivo(file_name)
 
 percentual_exons, percentual_introns = calcular_percentual_exons_introns(sequencias)

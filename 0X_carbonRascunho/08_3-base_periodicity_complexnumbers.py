@@ -16,9 +16,9 @@ def complex_representation(sequence):
         "G": -1 - 1j,
         "T": 1 - 1j
     }
-    return np.array([complex_values[base] for base in sequence if base in complex_values])
+    return np.array([complex_values.get(base, 0 + 0j) for base in sequence])  # Default to 0+0j if base not found
 
-def detect_periodicity(sequence, window_size=240, r=0.992):
+def detect_periodicity(sequence, window_size=1000, r=0.992):
     """Detects 3-base periodicity in a DNA sequence using digital filtering with complex representation.
 
     Args:
@@ -43,41 +43,52 @@ def detect_periodicity(sequence, window_size=240, r=0.992):
     scores = []
     for i in range(len(sequence) - window_size + 1):
         window = filtered_sequence[i : i + window_size]
-        score = np.max(np.abs(window))  # Use the maximum absolute value in the window as the score
+        score = np.sum(np.abs(window)**2)  # Use the sum of squares of the magnitude in the window as the score
         scores.append(score)
 
     return scores
 
-def classify_exons(sequence, scores, threshold=0.5):
+def classify_exons(sequence, scores, threshold=None):
     """Classifies exons and introns based on 3-base periodicity scores.
 
     Args:
         sequence: The DNA sequence as a string.
         scores: A list of periodicity scores for each position in the sequence.
-        threshold: The threshold for classifying a position as an exon (default: 0.5).
+        threshold: The threshold for classifying a position as an exon (default: mean of scores).
 
     Returns:
         A list of tuples indicating the exon/intron label for each position.
     """
-    window_size = len(scores)
+
+    if threshold is None:
+        threshold = np.mean(scores)  # Set threshold to the mean of the scores if not provided
+
     exons = []
     introns = []
+    in_exon = scores[0] > threshold
+
     for i, score in enumerate(scores):
         if score > threshold:
-            exons.append((i, i + window_size))  # Assuming exon length of window size
+            if not in_exon:
+                exons.append((i, i + 1000))  # Assuming exon length of 240 bases
+                in_exon = True
         else:
-            introns.append((i, i + window_size))
+            if in_exon:
+                introns.append((i, i + 1000))
+                in_exon = False
 
     return exons, introns
 
-# Assumindo que as funções detect_periodicity e classify_exons estão implementadas corretamente
+# Leitura do arquivo FASTA
+file_name = "0X_carbonRascunho/ttn-test.fa"  # Coloque aqui o nome do seu arquivo
+with open(file_name, "r") as file:
+    # Ignora a primeira linha de descrição e lê a sequência de DNA
+    sequence = "".join(line.strip().upper() for line in file if not line.startswith(">"))
 
-# Exemplo de sequência de DNA
-sequence = ("ACATTTGCTTCTGACACAACTGTGTTCACTAGCAACCTCAAACAGACACCATGGTGCATCTGACTCCTGAGGAGAAGTCTGCCGTTACTGCCCTGTGGGGCAAGGTGAACGTGGATGAAGTTGGTGGCTGCTGGTGGTCTACCCTTGGACCCAGAGGTTCTTTGAGTCCTTTGGGGATCTGTCCACTCCTGATGCTGTTATGGGCAACCCTAAGGTGAAGGCTCATGGCAAGAAAGTGCTCGGTGCCTTTAGTGATGGCCTGGCTCACCTGGACAACCTCAAGGGCACCTTTGCCACACTGAGTGAGCTGCACTGTGACAAGCTGCACGTGGATCCTGAGAACTTCAGGCTCCTGGGCAACGTGCTGGTCTGTGTGCTGGCCCATCACTTTGGCAAAGAATTCACCCCACCAGTGCAGGCTGCCTATCAGAAAGTGGTGGCTGGTGTGGCTAATGCCCTGGCCCACAAGTATCACTAAGCTCGCTTTCTTGCTGTCCAATTTCTATTAAAGGTTCCTTTGTTCCCTAAGTCCAACTACTAAACTGGGGGATATTATGAAGGGCCTTGAGCATCTGGATTCTGCCTAATAAAAAACATTTATTTTCATTGGTGAGGCCCTGGGCAGGTTGGTATCAAGGTTACAAGACAGGTTTAAGGAGACCAATAGAAACTGGGCATGTGGAGACAGAGAAGACTCTTGGGTTTCTGATAGGCACTGACTCTCTCTGCCTATTGGTCTATTTTCCCACCCTTAGGTGAGTCTATGGGACGCTTGATGTTTTCTTTCCCCTTCTTTTCTATGGTTAAGTTCATGTCATAGGAAGGGGATAAGTAACAGGGTACAGTTTAGAATGGGAAACAGACGAATGATTGCATCAGTGTGGAAGTCTCAGGATCGTTTTAGTTTCTTTTATTTGCTGTTCATAACAATTGTTTTCTTTTGTTTAATTCTTGCTTTCTTTTTTTTTCTTCTCCGCAATTTTTACTATTATACTTAATGCCTTAACATTGTGTATAACAAAAGGAAATATCTCTGAGATACATTAAGTAACTTAAAAAAAAACTTTACACAGTCTGCCTAGTACATTACTATTTGGAATATATGTGTGCTTATTTGCATATTCATAATCTCCCTACTTTATTTTCTTTTATTTTTAATTGATACATAATCATTATACATATTTATGGGTTAAAGTGTAATGTTTTAATATGTGTACACATATTGACCAAATCAGGGTAATTTTGCATTTGTAATTTTAAAAAATGCTTTCTTCTTTTAATATACTTTTTTGTTTATCTTATTTCTAATACTTTCCCTAATCTCTTTCTTTCAGGGCAATAATGATACAATGTATCATGCCTCTTTGCACCATTCTAAAGAATAACAGTGATAATTTCTGGGTTAAGGCAATAGCAATATCTCTGCATATAAATATTTCTGCATATAAATTGTAACTGATGTAAGAGGTTTCATATTGCTAATAGCAGCTACAATCCAGCTACCATTCTGCTTTTATTTTATGGTTGGGATAAGGCTGGATTATTCTGAGTCCAAGCTAGGCCCTTTTGCTAATCATGTTCATACCTCTTATCTTCCTCCCACAGCTCCTGGGCAACGTGCTGGTCTGTGTGCTGGCCCATCACTTTGGCAAAGAATTCACCCCACCAGTGCAGGCTGCCTATCAGAAAGTGGTGGCTGGTGTGGCTAATGCCCTGGCCCACAAGTATCACTAAGCTCGCTTTCTTGCTGTCCAATTTCTATTAAAGGTTCCTTTGTTCCCTAAGTCCAACTACTAAACTGGGGGATATTATGAAGGGCCTTGAGCATCTGGATTCTGCCTAATAAAAAACATTTATTTTCATTGCAATGATGTATTTAAATTATTTCTGAATATTTTACTAAAAAGGGAATGTG")
 # Remove caracteres inválidos da sequência
 sequence = "".join(c for c in sequence if c in "ACGT")
 
-# Assumindo que detect_periodicity e classify_exons são funções definidas
+# Detecta a periodicidade e classifica exons e introns
 scores = detect_periodicity(sequence)
 exons, introns = classify_exons(sequence, scores)
 
@@ -94,8 +105,3 @@ if total_regions > 0:
     print(f"Percentage of Introns: {intron_percentage:.2f}%")
 else:
     print("No regions classified.")
-
-# Pontos de correção:
-# - Certifique-se de que sequence contém apenas A, C, G e T.
-# - Adicione verificação de total_regions para evitar divisão por zero.
-# - Confirme que as funções detect_periodicity e classify_exons estão corretamente implementadas.
