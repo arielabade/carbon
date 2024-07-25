@@ -1,11 +1,25 @@
-
-
 import numpy as np
 from scipy.signal import lfilter
-from scipy.fft import fft, ifft
 
-def detect_periodicity(sequence, window_size=240, r=0.992):
-    """Detects 3-base periodicity in a DNA sequence using digital filtering.
+def complex_representation(sequence):
+    """Convert DNA sequence to complex numerical representation.
+    
+    Args:
+        sequence: The DNA sequence as a string (e.g., "ATCGGACT...").
+    
+    Returns:
+        A numpy array of complex numbers representing the DNA sequence.
+    """
+    complex_values = {
+        "A": 1 + 1j,
+        "C": -1 + 1j,
+        "G": -1 - 1j,
+        "T": 1 - 1j
+    }
+    return np.array([complex_values.get(base, 0 + 0j) for base in sequence])  # Default to 0+0j if base not found
+
+def detect_periodicity(sequence, window_size=1000, r=0.992):
+    """Detects 3-base periodicity in a DNA sequence using digital filtering with complex representation.
 
     Args:
         sequence: The DNA sequence as a string (e.g., "ATCGGACT...").
@@ -15,10 +29,8 @@ def detect_periodicity(sequence, window_size=240, r=0.992):
     Returns:
         A list of scores indicating the likelihood of each position being in an exon.
     """
-
-    # Convert DNA sequence to numerical representation (EIIP values)
-    eiip_values = {"A": 0.1260, "C": 0.1340, "G": 0.0806, "T": 0.1335, "N": 0.1000}  # Add a value for 'N'
-    numeric_sequence = np.array([eiip_values.get(base, 0.0) for base in sequence])  # Default to 0.0 if base not found
+    # Convert DNA sequence to complex numerical representation
+    numeric_sequence = complex_representation(sequence)
 
     # Design the anti-notch filter
     b = [1, -2, 1]  # Numerator coefficients
@@ -31,7 +43,7 @@ def detect_periodicity(sequence, window_size=240, r=0.992):
     scores = []
     for i in range(len(sequence) - window_size + 1):
         window = filtered_sequence[i : i + window_size]
-        score = np.sum(window**2)  # Use the sum of squares in the window as the score
+        score = np.sum(np.abs(window)**2)  # Use the sum of squares of the magnitude in the window as the score
         scores.append(score)
 
     return scores
@@ -58,31 +70,38 @@ def classify_exons(sequence, scores, threshold=None):
     for i, score in enumerate(scores):
         if score > threshold:
             if not in_exon:
-                exons.append((i, i + 240))  # Assuming exon length of 240 bases
+                exons.append((i, i + 1000))  # Assuming exon length of 240 bases
                 in_exon = True
         else:
             if in_exon:
-                introns.append((i, i + 240))
+                introns.append((i, i + 1000))
                 in_exon = False
 
     return exons, introns
 
-# Leitura do arquivo
-file_name = "0X_carbonRascunho/GADPH_transcript.fa"  # Coloque aqui o nome do seu arquivo
+# Leitura do arquivo FASTA
+file_name = "0X_carbonRascunho/hbb-test.fa"  # Coloque aqui o nome do seu arquivo
 with open(file_name, "r") as file:
-    sequence = file.read().strip().upper()  # Lê e formata a sequência
+    # Ignora a primeira linha de descrição e lê a sequência de DNA
+    sequence = "".join(line.strip().upper() for line in file if not line.startswith(">"))
 
-sequence = "".join(c for c in sequence if c in "ACGT")  # Remove invalid characters
+# Remove caracteres inválidos da sequência
+sequence = "".join(c for c in sequence if c in "ACGT")
+
+# Detecta a periodicidade e classifica exons e introns
 scores = detect_periodicity(sequence)
 exons, introns = classify_exons(sequence, scores)
 
 print("Exons:", exons)
 print("Introns:", introns)
 
-# Calculate and display percentages
+# Calcular e exibir porcentagens
 total_regions = len(exons) + len(introns)
-exon_percentage = (len(exons) / total_regions) * 100
-intron_percentage = (len(introns) / total_regions) * 100
+if total_regions > 0:
+    exon_percentage = (len(exons) / total_regions) * 100
+    intron_percentage = (len(introns) / total_regions) * 100
 
-print(f"\nPercentage of Exons: {exon_percentage:.2f}%")
-print(f"Percentage of Introns: {intron_percentage:.2f}%")
+    print(f"\nPercentage of Exons: {exon_percentage:.2f}%")
+    print(f"Percentage of Introns: {intron_percentage:.2f}%")
+else:
+    print("No regions classified.")
