@@ -26,8 +26,8 @@ def find_splicing_sites(sequence):
 
 def classify_and_split_sequence(sequence):
     sequence = sequence.replace('T', 'U')  # Convert to RNA for simplicity
-    start_positions, stop_positions = find_codons(sequence)
     donor_positions, acceptor_positions = find_splicing_sites(sequence)
+    start_positions, stop_positions = find_codons(sequence)
     
     blocks = []
     current_block = []
@@ -94,12 +94,11 @@ def read_sequences_from_files(filepaths):
     return sequences
 
 # Example usage
-filepaths = ['0X_carbonRascunho/hbb-test.fa']  # Adicione os caminhos dos arquivos aqui
+filepaths = ['0X_carbonRascunho/hbb-test-transcript.fa']  # Adicione os caminhos dos arquivos aqui
 sequences = read_sequences_from_files(filepaths)
 
 results, exon_percentage, intron_percentage = process_sequences(sequences)
-save_to_file(results, exon_percentage, intron_percentage, 'classified_sequences.csv')
+save_to_file(results, exon_percentage, intron_percentage, 'classified_sequences_hbb-test-transcript.csv')
 
-print(f"Classification complete. Results saved to classified_sequences.csv")
+print(f"Classification complete. Results saved to classified_sequences_hbb-test-transcript.csv")
 print(f"Exon percentage: {exon_percentage:.2f}%")
-print(f"Intron percentage: {intron_percentage:.2f}%")
