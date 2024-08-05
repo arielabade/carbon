@@ -94,7 +94,7 @@ def read_sequences_from_files(filepaths):
     return sequences
 
 # Example usage
-filepaths = ['0X_carbonRascunho/hbb-test-transcript.fa']  # Adicione os caminhos dos arquivos aqui
+filepaths = ['/home/ariel/carbon/0X_carbonRascunho/hbb-test-transcript.fa']  # Adicione os caminhos dos arquivos aqui
 sequences = read_sequences_from_files(filepaths)
 
 results, exon_percentage, intron_percentage = process_sequences(sequences)

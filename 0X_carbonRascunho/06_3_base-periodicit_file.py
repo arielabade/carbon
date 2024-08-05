@@ -63,9 +63,10 @@ def classify_exons(sequence, scores, threshold=0.5):
     return exons, introns
 
 # Example usage
-file_path = '0X_carbonRascunho/hbb-test-transcript.fa'  # Replace with your actual file path
+file_path = '/home/ariel/carbon/0X_carbonRascunho/GADPH_test.fa'  # Replace with your actual file path
 sequence = read_sequence_from_file(file_path)
 sequence = "".join(c for c in sequence if c in "ACGT")  # Remove invalid characters
+
 
 scores = detect_periodicity(sequence)
 exons, introns = classify_exons(sequence, scores)

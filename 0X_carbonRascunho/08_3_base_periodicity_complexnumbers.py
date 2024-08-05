@@ -80,7 +80,7 @@ def classify_exons(sequence, scores, threshold=None):
     return exons, introns
 
 # Leitura do arquivo FASTA
-file_name = "0X_carbonRascunho/hbb-test.fa"  # Coloque aqui o nome do seu arquivo
+file_name = "/home/ariel/carbon/0X_carbonRascunho/GADPH_transcript.fa"  # Coloque aqui o nome do seu arquivo
 with open(file_name, "r") as file:
     # Ignora a primeira linha de descrição e lê a sequência de DNA
     sequence = "".join(line.strip().upper() for line in file if not line.startswith(">"))
