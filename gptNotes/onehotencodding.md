@@ -1,1 +1,0 @@
-dentro do google docs
