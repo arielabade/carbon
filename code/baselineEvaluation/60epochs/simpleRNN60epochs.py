@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 # Parameters
 chunk_size = 1000
 max_len_limit = 500
-batch_size = 16 + 2
+batch_size = 16 
 epochs = 60
 random_state = 42
 

@@ -15,7 +15,7 @@ import gc
 chunk_size = 1000
 max_len_limit = 500
 batch_size = 16
-epochs = 1
+epochs = 60
 random_state = 42
 
 # File paths, including NEB in the training
