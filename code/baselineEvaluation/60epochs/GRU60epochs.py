@@ -27,7 +27,7 @@ file_paths_train = [
     "/content/PGK1_test_CORRECTED.csv",
     "/content/RPLA13A_test_CORRECTED.csv",
     "/content/TTN_test_CORRECTED.csv",
-    "/content/NEB_test_test_CORRECTED.csv"
+    "/content/NEB_test_CORRECTED.csv"
 ]
 
 # Function to process chunks
