@@ -6,8 +6,7 @@ This repository provides a Recurrent Neural Network (RNN) model specifically des
 1. [Model Overview](#model-overview)
 2. [Baseline Evaluation](#baseline-evaluation)
 3. [Data Description](#data-description)
-4. [Model File (.h5)](#model-file-h5)
-5. [License](#license)
+4. [License](#license)
 
 ---
 
@@ -43,16 +42,6 @@ The dataset used for training includes exon and intron sequences from eight gene
 
 The data in FASTA format and in the CSV format can be found [here](https://github.com/arielabade/carbon/tree/main/data).
 
-### Final Implemented Model
-
-The trained BI-LSTM model is saved in...
-
-```python
-from tensorflow.keras.models import load_model
-
-# Load the model
-model = load_model('path_to_model/model.h5')
-```
 
 ### Conclusion
 
