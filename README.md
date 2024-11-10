@@ -15,7 +15,7 @@ This repository contains an implementation of a Recurrent Neural Network (RNN) m
 
 ### Model Explanation
 
-The model is a [type of RNN, e.g., LSTM or GRU] designed to handle sequential data by capturing temporal dependencies. [Explain the purpose of the model in detail, and how RNN layers are utilized to learn patterns from time-series or sequential data. Discuss any additional layers or preprocessing steps involved, and how they contribute to the model’s performance.]
+The final proposed model is a bidirectional long short term memory (BI-LSTM) designed to handle sequential data by capturing temporal dependencies. [Explain the purpose of the model in detail, and how RNN layers are utilized to learn patterns from time-series or sequential data. Discuss any additional layers or preprocessing steps involved, and how they contribute to the model’s performance.]
 
 **Model Architecture**:
 - Input: [Describe the input shape and type, e.g., sequence of daily stock prices]

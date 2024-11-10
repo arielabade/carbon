@@ -1,4 +1,4 @@
-#GRU60EPOCHSRIGHTFINAL
+#GRU60EPOCHSBASELINEEVALUATION
 
 import pandas as pd
 import numpy as np
