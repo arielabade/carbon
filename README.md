@@ -16,7 +16,7 @@ This repository provides a Recurrent Neural Network (RNN) model specifically des
 The final model is a Bidirectional Long Short-Term Memory (BI-LSTM) network, optimized for recognizing sequential patterns within the data.
 
 **Model Architecture**:
-- **Input**: A CSV file containing exon/intron sequences with a binary label for classification. Originally, the data was in the FASTA format but it had to be adapted to fit the RNN input format. The link for the data preparation code is [here] (https://github.com/arielabade/carbon/blob/main/code/dataPreparation/featureExtraction.py).
+- **Input**: A CSV file containing exon/intron sequences with a binary label for classification. Originally, the data was in the FASTA format but it had to be adapted to fit the RNN input format. The link for the data preparation code is [here](https://github.com/arielabade/carbon/blob/main/code/dataPreparation/featureExtraction.py).
 - **Layers**: The model includes three bidirectional LSTM layers, each with a specific neuron configuration: 64 neurons in the first layer, 64 in the second, and 32 in the third, doubling the total neurons per layer due to the bidirectional setup.
 - **Dropout**: 0.2 Dropout Rate after each Bi-LSTM layer and Dense layer to prevent overfitting by randomly deactivating 20% of the neurons.
 - **Activation and Optimzation functions**: the ReLU activation function and Adam optimizator with standard values were used to achieve better results.
@@ -32,10 +32,10 @@ To evaluate performance, we compared the BI-LSTM with three baseline models (Sim
 | GRU          | 0.9970   | 0.9981    | 0.9962 | 0.9979      | 0.9971   |
 | BI-LSTM      | 0.9980   | 1.0000    | 0.9961 | 1.0000      | 0.9981   |
 
-- [Simple RNN](https://github.com/arielabade/carbon/blob/main/code/baselineEvaluation/60epochs/simpleRNN60epochs.py)
-- [LSTM](https://github.com/arielabade/carbon/blob/main/code/baselineEvaluation/60epochs/lstm60epochs.py)
+- [Simple RNN](https://github.com/arielabade/carbon/blob/main/code/baselineEvaluation/60epochs/simpleRNN60epochs.py).
+- [LSTM](https://github.com/arielabade/carbon/blob/main/code/baselineEvaluation/60epochs/lstm60epochs.py).
 - [GRU](https://github.com/arielabade/carbon/blob/main/code/baselineEvaluation/60epochs/GRU60epochs.py)
-- [BI-LSTM](https://github.com/arielabade/carbon/blob/main/code/baselineEvaluation/60epochs/biLSTM30epochs.py)
+- [BI-LSTM](https://github.com/arielabade/carbon/blob/main/code/baselineEvaluation/60epochs/biLSTM30epochs.py).
 
 ### Data Description
 
