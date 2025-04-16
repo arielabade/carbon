@@ -101,70 +101,22 @@ Training was limited to 30 epochs, with early stopping based on validation loss 
 | LSTM        | 0.9860   | 0.9810    | 0.9923      | 0.9790      | 0.9866   |
 | Simple RNN  | 0.6820   | 0.6216    | 0.9981      | 0.3375      | 0.7661   |
 
----
+- [Simple RNN](https://github.com/arielabade/carbon/blob/main/code/baselineEvaluation/60epochs/simpleRNN60epochs.py).
+- [LSTM](https://github.com/arielabade/carbon/blob/main/code/baselineEvaluation/60epochs/lstm60epochs.py).
+- [GRU](https://github.com/arielabade/carbon/blob/main/code/baselineEvaluation/60epochs/GRU60epochs.py)
+- [BI-LSTM](https://github.com/arielabade/carbon/blob/main/code/baselineEvaluation/60epochs/biLSTM30epochs.py).
 
-## 📊 Results
+### Data Description
 
-The **BI-LSTM model** demonstrated superior performance across all metrics. Its bidirectional design captured long-range dependencies more effectively than other models.
+The dataset used for training includes exon and intron sequences from eight genes: **Ankyrin Repeat Domain 1 (ANKRD1)**, **Phosphoglycerate Kinase 1 (PGK1)**, **Beta-2-Microglobulin (B2M)**, **Glyceraldehyde-3-Phosphate Dehydrogenase (GADPH)**, **Peptidylprolyl Isomerase A (PPIA)**, **Ribosomal Protein L13A (RPLA13A)**, **Nebulin (NEB)**, and **Titin (TTN)**. Each gene dataset is labeled with *gene name*, *gene identification*, *exon/intron classification*, and *sequence*. Data was sourced from the Ensembl platform.
 
-### Training Metrics – BI-LSTM
+The data in FASTA format and in the CSV format can be found [here](https://github.com/arielabade/carbon/tree/main/data).
 
-- **Accuracy across epochs**  
-  ![BI-LSTM Accuracy](./images/accuracy.png)
 
-- **Loss across epochs**  
-  ![BI-LSTM Loss](./images/loss.png)
+### Conclusion
 
-These visualizations confirm a stable training process with high convergence and no significant overfitting.
+The BI-LSTM model outperformed the other RNN-based models, making it the preferred choice for exon and intron classification.
 
----
+For more details, refer to the article:
 
-## 📉 Data Visualization
-
-To better understand data distribution and model input characteristics, the dataset was also analyzed through graphical summaries:
-
-- Stacked bar plots showing base count distributions across training, validation, and test sets
-- Exon/intron proportion analysis by gene
-- Visualization of sequence length distributions (not shown here)
-
-These visualizations provide context for dataset balance and feature integrity before model ingestion.
-
----
-
-## 📈 Comparison with Related Studies
-
-| Model/Study                        | Accuracy | Methodology                       |
-|-----------------------------------|----------|-----------------------------------|
-| **This Study**                    | **0.9980** | BI-LSTM                          |
-| Canatalay & Ucan (2022)           | 0.9610   | BI-LSTM + GRU ensemble            |
-| Gunasekaran et al. (2021)         | 0.9316   | CNN                              |
-| Barber & Oueslati (2024)          | 0.9160   | ResNet-50 + GoogleNet            |
-| Ben Nasr & Oueslati (2021)        | 0.8910   | CNN                              |
-| Sudha & Vijaya (2022)             | 0.8488   | LSTM + DNN + BRNN                |
-
----
-
-## ✅ Conclusions
-
-- The **BI-LSTM** model achieved the highest accuracy in both internal and external benchmarks.
-- Its ability to model bidirectional context is well-suited for exon/intron sequence classification.
-- Future improvements may include:
-  - Ensemble models with GRU/CNN layers
-  - Incorporation of biological features (e.g., codon periodicity)
-
----
-
-## 📁 Dataset & Code
-
-> Dataset and source code are available at:  
-> [https://github.com/your-username/your-repo](https://github.com/your-username/your-repo)
-
----
-
-## 📚 References
-
-For a full list of references and datasets used, consult the publication attached to this repository.
-
----
-
-Let me know if you want this exported as a `README.md` file or need help creating the graphics mentioned in the visualization section.
+#ola
