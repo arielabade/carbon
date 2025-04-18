@@ -1,7 +1,4 @@
-
-
-
-🧬 Exon & Intron Classification Using BI-LSTM | Genomic Sequence Analysis with Deep Learning
+## 🧬 Exon & Intron Classification Using BI-LSTM | Genomic Sequence Analysis with Deep Learning
 
 This project implements a Bidirectional LSTM (BI-LSTM) neural network to classify exonic and intronic regions in human DNA sequences using character-level sequence modeling. It includes a complete ETL pipeline, dataset preprocessing from FASTA to CSV, baseline model comparisons (RNN, LSTM, GRU), and visualization of training progress.
 
