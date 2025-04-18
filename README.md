@@ -1,8 +1,11 @@
 
 
-# RNN-Based Machine Learning Model for Exon and Intron Classification
 
-This repository implements a **Bidirectional LSTM (BI-LSTM)** model to classify exonic and intronic regions in DNA sequences. The project encompasses the full **ETL pipeline**, dataset processing, model evaluation, and implementation — originally developed as part of a scientific initiation research project.
+🧬 Exon & Intron Classification Using BI-LSTM | Genomic Sequence Analysis with Deep Learning
+
+This project implements a Bidirectional LSTM (BI-LSTM) neural network to classify exonic and intronic regions in human DNA sequences using character-level sequence modeling. It includes a complete ETL pipeline, dataset preprocessing from FASTA to CSV, baseline model comparisons (RNN, LSTM, GRU), and visualization of training progress.
+
+Originally developed for a scientific paper accepted at a bioinformatics conference in Portugal, the project focuses on reproducibility and performance benchmarking using real-world genomic data sourced from the Ensembl Genome Browser.
 
 ## Table of Contents
 1. [Model Overview](#model-overview)
@@ -146,6 +149,6 @@ The project emphasizes:
 
     Most related studies used in-house datasets and unfortunately did not provide access to their training or testing data, nor the full implementation details.
     As a result, it was difficult to establish fair comparisons or assess how well those external models actually performed in practice.
-    
+
 📬 For more information, contact: **arielabadebandeira@gmail.com**
 
