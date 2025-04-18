@@ -78,6 +78,9 @@ The training process includes real-time visualization of:
 - **Training vs. Validation Loss**
 - **Training vs. Validation Accuracy**
 
+![Train/Validation/Test Split](images/trainTestValidation.png)
+
+
 📈 These plots confirm that the model generalizes well without overfitting.
 
 ---
