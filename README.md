@@ -48,6 +48,8 @@ Each FASTA file was parsed and transformed into a structured CSV file, following
   - 10% Testing
 - Sequences were processed in **chunks of 1000** to improve memory efficiency.
 
+![Train/Validation/Test Split](images/trainTestValidation.png)
+
 ---
 
 ## Final BI-LSTM Model Architecture
@@ -78,7 +80,7 @@ The training process includes real-time visualization of:
 - **Training vs. Validation Loss**
 - **Training vs. Validation Accuracy**
 
-![Train/Validation/Test Split](images/trainTestValidation.png)
+![trainingAndLossValidation](images/validationLossBIlstm.png)
 
 
 📈 These plots confirm that the model generalizes well without overfitting.
