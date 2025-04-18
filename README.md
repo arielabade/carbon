@@ -83,7 +83,7 @@ The training process includes real-time visualization of:
 ![trainingAndLossValidation](images/validationLossBIlstm.png)
 
 
-📈 These plots confirm that the model generalizes well without overfitting.
+📈 These plots confirm that the model generalizes well without overfitting, respecting the converging graphics between validation and loss.
 
 ---
 
@@ -135,5 +135,17 @@ The project emphasizes:
 - 🔁 Reproducibility through complete ETL steps
 - 📈 Scientific rigor in metric evaluation and cross-model comparison
 
+# 📝 Notes
+
+    This project was developed as part of a research initiative and was accepted for presentation at an international conference in Portugal.
+    To access the full paper, feel free to contact me via email: arielabadebandeira@gmail.com
+
+    One of the main challenges during development was finding comparable research papers with similar approaches and consistent evaluation metrics.
+
+    Another significant difficulty was obtaining reliable and publicly available genomic datasets, especially for cross-testing against other models.
+
+    Most related studies used in-house datasets and unfortunately did not provide access to their training or testing data, nor the full implementation details.
+    As a result, it was difficult to establish fair comparisons or assess how well those external models actually performed in practice.
+    
 📬 For more information, contact: **arielabadebandeira@gmail.com**
 
