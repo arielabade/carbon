@@ -1,4 +1,27 @@
-## 🧬 Exon & Intron Classification Using BI-LSTM | Genomic Sequence Analysis with Deep Learning
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/brand/header-dark.svg">
+    <img alt="Carbon — exon and intron classification in human DNA with a bidirectional LSTM" src="assets/brand/header-light.svg" width="100%">
+  </picture>
+</p>
+
+<p align="center">
+  <img alt="Domain: bioinformatics" src="https://img.shields.io/badge/domain-bioinformatics-5B6CFF?style=flat-square&labelColor=050505">
+  <img alt="TensorFlow and Keras" src="https://img.shields.io/badge/TensorFlow-Keras-7E8791?style=flat-square&labelColor=050505">
+  <img alt="Source: Ensembl Genome Browser" src="https://img.shields.io/badge/source-Ensembl-7E8791?style=flat-square&labelColor=050505">
+  <img alt="Accepted for conference presentation" src="https://img.shields.io/badge/paper-accepted-C8B680?style=flat-square&labelColor=050505">
+</p>
+
+**Coding and non-coding regions, separated by a model that reads DNA as a sequence.** A bidirectional
+LSTM classifies exonic and intronic regions in human DNA using character-level sequence modelling,
+with a full ETL pipeline, three controlled baselines and reproducible benchmarking.
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/brand/stats-dark.svg">
+    <img alt="Test accuracy 0.9980, F1-score 0.9981, 9,971 sequences, 8 human genes" src="assets/brand/stats-light.svg" width="100%">
+  </picture>
+</p>
 
 This project implements a Bidirectional LSTM (BI-LSTM) neural network to classify exonic and intronic regions in human DNA sequences using character-level sequence modeling. It includes a complete ETL pipeline, dataset preprocessing from FASTA to CSV, baseline model comparisons (RNN, LSTM, GRU), and visualization of training progress.
 
@@ -92,6 +115,17 @@ The training process includes real-time visualization of:
 ## Baseline Evaluation
 
 To validate the BI-LSTM model, it was compared with three other RNN-based architectures: **Simple RNN**, **LSTM**, and **GRU**. All models were trained under the same conditions and evaluated on the same dataset splits.
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/brand/bars-dark.svg">
+    <img alt="Baseline evaluation chart: BI-LSTM leads on accuracy, precision, specificity and F1-score" src="assets/brand/bars-light.svg" width="100%">
+  </picture>
+</p>
+
+Simple RNN reaches the highest sensitivity of the group at 0.9981, but pairs it with a specificity of
+0.3375: it calls almost everything an exon. Reading the two together is what separates a model that
+discriminates from a model that guesses in one direction.
 
 | Model        | Accuracy | Precision | Sensitivity | Specificity | F1-Score |
 |--------------|----------|-----------|-------------|-------------|----------|
@@ -205,3 +239,11 @@ References such as BERT, GPT-4, ResNet-50, GoogleNet, GeneGPT, Ritch et al., and
     As a result, it was difficult to establish fair comparisons or assess how well those external models actually performed in practice.
 
 📬 For more information, contact: **arielabadebandeira@gmail.com**
+
+---
+
+<p align="center">
+  <a href="https://github.com/arielabade">Portfolio overview</a>
+  &nbsp;·&nbsp;
+  <a href="https://github.com/arielabade/echo-womens-health-research-analytics">Research analytics</a>
+</p>
