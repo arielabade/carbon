@@ -1,9 +1,4 @@
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/brand/header-dark.svg">
-    <img alt="Carbon: exon and intron classification in human DNA with a bidirectional LSTM" src="assets/brand/header-light.svg" width="100%">
-  </picture>
-</p>
+<p align="center"><img alt="Carbon: exon and intron classification in human DNA with a bidirectional LSTM" src="assets/brand/header.svg" width="100%"></p>
 
 <p align="center">
   <img alt="Method stage: build" src="https://img.shields.io/badge/stage-build-5B6CFF?style=flat-square&labelColor=050505">
@@ -16,19 +11,9 @@
 99.80% test accuracy.** It leads three controlled baselines on every metric. The paper was accepted at
 an international bioinformatics conference in Portugal.
 
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/brand/kpis-dark.svg">
-    <img alt="Test accuracy 99.80%; specificity 1.000; 9,971 sequences from 8 human genes" src="assets/brand/kpis-light.svg" width="100%">
-  </picture>
-</p>
+<p align="center"><img alt="Test accuracy 99.80%; specificity 1.000; 9,971 sequences from 8 human genes" src="assets/brand/kpis.svg" width="100%"></p>
 
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/brand/arc-dark.svg">
-    <img alt="Context, problem, strategy and result of the case" src="assets/brand/arc-light.svg" width="100%">
-  </picture>
-</p>
+<p align="center"><img alt="Context, problem, strategy and result of the case" src="assets/brand/arc.svg" width="100%"></p>
 
 ---
 
@@ -97,12 +82,7 @@ specificity, F1.
 
 ## 04 — Result
 
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/brand/chart-dark.svg">
-    <img alt="Specificity: Bi-LSTM 1.000, GRU 0.998, LSTM 0.979, Simple RNN 0.338" src="assets/brand/chart-light.svg" width="100%">
-  </picture>
-</p>
+<p align="center"><img alt="Specificity: Bi-LSTM 1.000, GRU 0.998, LSTM 0.979, Simple RNN 0.338" src="assets/brand/chart.svg" width="100%"></p>
 
 | Rank | Model | Accuracy | Precision | Sensitivity | Specificity | F1-score |
 |------|-------|----------|-----------|-------------|-------------|----------|
@@ -210,12 +190,7 @@ images/                      split and training-curve figures
 
 ---
 
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/brand/track-dark.svg">
-    <img alt="ABADE method: validate, scale, retain, build. This repository: build" src="assets/brand/track-light.svg" width="100%">
-  </picture>
-</p>
+<p align="center"><img alt="ABADE method: validate, scale, retain, build. This repository: build" src="assets/brand/track.svg" width="100%"></p>
 
 <p align="center">
   <a href="https://github.com/arielabade">Portfolio</a> &nbsp;·&nbsp;
