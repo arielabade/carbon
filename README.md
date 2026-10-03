@@ -1,161 +1,126 @@
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="assets/brand/header-dark.svg">
-    <img alt="Carbon — exon and intron classification in human DNA with a bidirectional LSTM" src="assets/brand/header-light.svg" width="100%">
+    <img alt="Carbon: exon and intron classification in human DNA with a bidirectional LSTM" src="assets/brand/header-light.svg" width="100%">
   </picture>
 </p>
 
 <p align="center">
-  <img alt="Domain: bioinformatics" src="https://img.shields.io/badge/domain-bioinformatics-5B6CFF?style=flat-square&labelColor=050505">
+  <img alt="Method stage: build" src="https://img.shields.io/badge/stage-build-5B6CFF?style=flat-square&labelColor=050505">
   <img alt="TensorFlow and Keras" src="https://img.shields.io/badge/TensorFlow-Keras-7E8791?style=flat-square&labelColor=050505">
   <img alt="Source: Ensembl Genome Browser" src="https://img.shields.io/badge/source-Ensembl-7E8791?style=flat-square&labelColor=050505">
   <img alt="Accepted for conference presentation" src="https://img.shields.io/badge/paper-accepted-C8B680?style=flat-square&labelColor=050505">
 </p>
 
-**Coding and non-coding regions, separated by a model that reads DNA as a sequence.** A bidirectional
-LSTM classifies exonic and intronic regions in human DNA using character-level sequence modelling,
-with a full ETL pipeline, three controlled baselines and reproducible benchmarking.
+**A bidirectional LSTM reads DNA as a sequence and separates coding from non-coding regions with
+99.80% test accuracy.** It leads three controlled baselines on every metric. The paper was accepted at
+an international bioinformatics conference in Portugal.
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/brand/stats-dark.svg">
-    <img alt="Test accuracy 0.9980, F1-score 0.9981, 9,971 sequences, 8 human genes" src="assets/brand/stats-light.svg" width="100%">
+    <source media="(prefers-color-scheme: dark)" srcset="assets/brand/kpis-dark.svg">
+    <img alt="Test accuracy 99.80%; specificity 1.000; 9,971 sequences from 8 human genes" src="assets/brand/kpis-light.svg" width="100%">
   </picture>
 </p>
-
-This project implements a Bidirectional LSTM (BI-LSTM) neural network to classify exonic and intronic regions in human DNA sequences using character-level sequence modeling. It includes a complete ETL pipeline, dataset preprocessing from FASTA to CSV, baseline model comparisons (RNN, LSTM, GRU), and visualization of training progress.
-
-Originally developed for a scientific paper accepted at a bioinformatics conference in Portugal, the project focuses on reproducibility and performance benchmarking using real-world genomic data sourced from the Ensembl Genome Browser.
-
-## Table of Contents
-1. [Model Overview](#model-overview)
-2. [ETL Pipeline (Data Preparation)](#etl-pipeline-data-preparation)
-3. [Final BI-LSTM Model Architecture](#final-bi-lstm-model-architecture)
-4. [Baseline Evaluation](#baseline-evaluation)
-5. [Literature Benchmarking](#literature-benchmarking)
-6. [Data Description](#data-description)
-7. [Conclusion](#conclusion)
-8. [References](#references)
-9. [License](#license)
-
----
-
-## Model Overview
-
-The goal of this project is to accurately distinguish between **exons (coding regions)** and **introns (non-coding regions)** in DNA sequences using deep learning techniques. Among several models tested, the **BI-LSTM** architecture showed the best performance in terms of accuracy and generalization.
-
----
-
-## ETL Pipeline (Data Preparation)
-
-The ETL pipeline was designed to transform raw biological data from the **FASTA** format into a format compatible with RNN-based models.
-
-### 1. Extract
-- **Source**: [Ensembl Genome Browser](https://www.ensembl.org)
-- **Genes included**: `ANKRD1`, `PGK1`, `B2M`, `GAPDH`, `PPIA`, `RPLA13A`, `NEB`, `TTN`
-- **Format**: FASTA files containing nucleotide sequences labeled by region (exon/intron)
-
-### 2. Transform
-Each FASTA file was parsed and transformed into a structured CSV file, following these steps:
-- **Gene label extraction** using regex from FASTA headers
-- **Binary labeling**: exon = 1, intron = 0
-- **Intron masking** for gene IDs not present in intronic regions
-- **Feature engineering**: adding metadata such as `start`, `end`, `length`, and `sequence`
-- **Cleaning** and standardization to create uniform-length input sequences
-
-🛠️ Code: [featureExtraction.py](data/featureExtraction/featureExtraction.py)
-
-### 3. Load
-- After preprocessing, sequences were tokenized (character-level) and padded to a **maximum length of 500** nucleotides.
-- Data was split using `train_test_split`:
-  - 80% Training
-  - 10% Validation
-  - 10% Testing
-- Sequences were processed in **chunks of 1000** to improve memory efficiency.
-
-![Train/Validation/Test Split](images/trainTestValidation.png)
-
----
-
-## Final BI-LSTM Model Architecture
-
-The final model was implemented using **TensorFlow and Keras**, with the following structure:
-
-| Layer                  | Configuration                                                      |
-|------------------------|--------------------------------------------------------------------|
-| **Embedding**          | `input_dim = vocab_size`, `output_dim = 32`, `input_length = 500` |
-| **Bi-LSTM Layer 1**    | 32 units, `return_sequences=True`                                 |
-| **Dropout Layer**      | Dropout rate = 0.2                                                 |
-| **Bi-LSTM Layer 2**    | 32 units                                                           |
-| **Dropout Layer**      | Dropout rate = 0.2                                                 |
-| **Dense Layer**        | 64 units, `activation='relu'`                                     |
-| **Output Layer**       | 1 unit, `activation='sigmoid'`                                     |
-
-### Training Details
-- **Epochs**: 60
-- **Batch Size**: 16
-- **Optimizer**: Adam (default learning rate)
-- **Loss Function**: Binary Crossentropy
-- **Tokenization**: Character-level (A, T, G, C, etc.)
-- **Padding**: Post-padding of sequences up to 500 characters
-- **Evaluation Metrics**: Accuracy, Precision, Sensitivity (Recall), Specificity, F1-Score
-
-### Visualization
-The training process includes real-time visualization of:
-- **Training vs. Validation Loss**
-- **Training vs. Validation Accuracy**
-
-![trainingAndLossValidation](images/validationLossBIlstm.png)
-
-
-📈 These plots confirm that the model generalizes well without overfitting, respecting the converging graphics between validation and loss.
-
----
-
-## Baseline Evaluation
-
-To validate the BI-LSTM model, it was compared with three other RNN-based architectures: **Simple RNN**, **LSTM**, and **GRU**. All models were trained under the same conditions and evaluated on the same dataset splits.
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/brand/bars-dark.svg">
-    <img alt="Baseline evaluation chart: BI-LSTM leads on accuracy, precision, specificity and F1-score" src="assets/brand/bars-light.svg" width="100%">
+    <source media="(prefers-color-scheme: dark)" srcset="assets/brand/arc-dark.svg">
+    <img alt="Context, problem, strategy and result of the case" src="assets/brand/arc-light.svg" width="100%">
   </picture>
 </p>
 
-Simple RNN reaches the highest sensitivity of the group at 0.9981, but pairs it with a specificity of
-0.3375: it calls almost everything an exon. Reading the two together is what separates a model that
-discriminates from a model that guesses in one direction.
+---
 
-| Model        | Accuracy | Precision | Sensitivity | Specificity | F1-Score |
-|--------------|----------|-----------|-------------|-------------|----------|
-| Simple RNN   | 0.6820   | 0.6216    | 0.9981      | 0.3375      | 0.7661   |
-| LSTM         | 0.9860   | 0.9810    | 0.9923      | 0.9790      | 0.9866   |
-| GRU          | 0.9960   | 0.9981    | 0.9942      | 0.9979      | 0.9961   |
-| **BI-LSTM**  | **0.9980** | **1.0000** | **0.9961**   | **1.0000**   | **0.9981** |
+## 01 — Context
 
-📁 Scripts for each model:
-- [Simple RNN](code/baselineEvaluation/60epochs/simpleRNN60epochs.py)
-- [LSTM](code/baselineEvaluation/60epochs/lstm60epochs.py)
-- [GRU](code/baselineEvaluation/60epochs/GRU60epochs.py)
-- [BI-LSTM](code/biLSTM/carbonFinalModel.py)
+Gene-structure analysis depends on telling **exons** (coding regions) from **introns** (non-coding
+regions). Most published approaches rely on in-house datasets with no public training or test data,
+which makes fair comparison difficult.
 
-## Literature Benchmarking
+### Data
 
-The following table compares the proposed BI-LSTM with the local baselines and with related studies identified in the supplied paper source (`Main.tex` and `refs.bib`). Accuracy is the only metric reported consistently enough for a cross-study comparison.
+Real genomic sequences from the [Ensembl Genome Browser](https://www.ensembl.org): **9,971 sequences**
+from eight human genes, balanced between exons and introns.
 
-### Controlled benchmark on the project dataset
+| Gene | Exons | Introns | Total sequences | Exonic bases | Intronic bases |
+|------|-------|---------|-----------------|--------------|----------------|
+| ANKRD1 | 9 | 8 | 17 | 1,790 | 7,202 |
+| PGK1 | 37 | 31 | 68 | 9,539 | 339,889 |
+| B2M | 40 | 28 | 68 | 10,553 | 51,222 |
+| GAPDH | 79 | 68 | 147 | 13,269 | 21,371 |
+| PPIA | 80 | 62 | 142 | 34,258 | 80,547 |
+| RPLA13A | 123 | 101 | 224 | 29,782 | 54,231 |
+| NEB | 844 | 823 | 1,667 | 119,394 | 1,106,064 |
+| TTN | 3,822 | 3,807 | 7,629 | 1,247,226 | 2,273,905 |
+| **Total** | 5,034 | 4,928 | **9,971** | 1,469,811 | 3,885,762 |
 
-All local models use the same human-gene dataset, character-level tokenization, 80/10/10 train-validation-test split, and binary exon/intron labels. The values below are the reported test-set results.
+---
 
-| Rank | Model | Accuracy | Precision | Sensitivity | Specificity | F1-score | Local implementation |
-|------|-------|----------|-----------|-------------|-------------|----------|----------------------|
-| 1 | **Proposed BI-LSTM** | **0.9980** | **1.0000** | **0.9961** | **1.0000** | **0.9981** | [`carbonFinalModel.py`](code/biLSTM/carbonFinalModel.py) |
-| 2 | GRU | 0.9960 | 0.9981 | 0.9942 | 0.9979 | 0.9961 | [`GRU60epochs.py`](code/baselineEvaluation/60epochs/GRU60epochs.py) |
-| 3 | LSTM | 0.9860 | 0.9810 | 0.9923 | 0.9790 | 0.9866 | [`lstm60epochs.py`](code/baselineEvaluation/60epochs/lstm60epochs.py) |
-| 4 | Simple RNN | 0.6820 | 0.6216 | 0.9981 | 0.3375 | 0.7661 | [`simpleRNN60epochs.py`](code/baselineEvaluation/60epochs/simpleRNN60epochs.py) |
+## 02 — Problem
 
-### Cross-study literature context
+Classify each region as exon or intron **from the raw nucleotide sequence alone**, and show that the
+result holds against controlled baselines trained under identical conditions, not just against
+numbers reported on other datasets.
+
+---
+
+## 03 — Strategy
+
+**ETL, FASTA to model-ready tensors** ([`featureExtraction.py`](data/featureExtraction/featureExtraction.py))
+
+| Step | What happens |
+| --- | --- |
+| Extract | FASTA files per gene, labelled by region, from Ensembl |
+| Transform | Gene label via regex from headers · binary label (exon = 1, intron = 0) · intron masking · `start`, `end`, `length`, `sequence` metadata · cleaning |
+| Load | Character-level tokens · post-padding to **500** nucleotides · 80/10/10 split · processing in chunks of 1,000 |
+
+![Train/validation/test split](images/trainTestValidation.png)
+
+**Final model** ([`carbonFinalModel.py`](code/biLSTM/carbonFinalModel.py)), TensorFlow/Keras:
+
+| Layer | Configuration |
+|-------|---------------|
+| Embedding | `output_dim = 32`, `input_length = 500` |
+| Bi-LSTM 1 | 32 units, `return_sequences=True` · Dropout 0.2 |
+| Bi-LSTM 2 | 32 units · Dropout 0.2 |
+| Dense | 64 units, ReLU |
+| Output | 1 unit, sigmoid |
+
+60 epochs · batch 16 · Adam · binary cross-entropy. Metrics: accuracy, precision, sensitivity,
+specificity, F1.
+
+**Controlled baselines.** Simple RNN, LSTM and GRU trained on the same splits, tokenisation and epochs
+([scripts](code/baselineEvaluation/60epochs/)).
+
+---
+
+## 04 — Result
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/brand/chart-dark.svg">
+    <img alt="Specificity: Bi-LSTM 1.000, GRU 0.998, LSTM 0.979, Simple RNN 0.338" src="assets/brand/chart-light.svg" width="100%">
+  </picture>
+</p>
+
+| Rank | Model | Accuracy | Precision | Sensitivity | Specificity | F1-score |
+|------|-------|----------|-----------|-------------|-------------|----------|
+| 1 | **Bi-LSTM** | **0.9980** | **1.0000** | **0.9961** | **1.0000** | **0.9981** |
+| 2 | GRU | 0.9960 | 0.9981 | 0.9942 | 0.9979 | 0.9961 |
+| 3 | LSTM | 0.9860 | 0.9810 | 0.9923 | 0.9790 | 0.9866 |
+| 4 | Simple RNN | 0.6820 | 0.6216 | 0.9981 | 0.3375 | 0.7661 |
+
+Simple RNN has the highest sensitivity in the group (0.9981) only because it calls almost everything an
+exon: its specificity is 0.3375. Reading the two together separates a model that discriminates from
+one that guesses in one direction.
+
+![Training vs validation loss](images/validationLossBIlstm.png)
+
+Training and validation curves converge without divergence, so the model generalises rather than
+memorises.
+
+### Literature context
 
 These results must not be interpreted as a strict leaderboard: the studies use different organisms, gene sets, sequence encodings, train/test protocols, and sometimes a related prediction task rather than the same exon/intron classification problem. The external values are reported results, not re-runs of their models in this repository.
 
@@ -169,40 +134,24 @@ These results must not be interpreted as a strict leaderboard: the studies use d
 | Ben Nasr Barber & Oueslati (2024) — ResNet-50 | Human exon/intron classification from FCGR images | 92.00% | Same broad task; reported result | [Journal of Genetic Engineering and Biotechnology](https://doi.org/10.1016/j.jgeb.2024.100359) |
 | Akalın & Yumuşak (2024) — SBERT + ANFIS | Exon/intron classification for BCR-ABL and MEFV sequences | 88.88% | Different genes and representation; reported result | [Journal of Polytechnic](https://doi.org/10.2339/politeknik.1187808) |
 
-The local BI-LSTM leads the controlled benchmark at 99.80% accuracy. The literature comparison suggests strong performance relative to the cited studies, but the differences in datasets and experimental protocols mean that the controlled local comparison is the scientifically stronger claim.
+The controlled local comparison is the stronger scientific claim. The literature comparison suggests
+strong relative performance, but datasets and protocols differ.
+
+> **Outcome.** A reproducible Bi-LSTM pipeline for exon/intron classification, from public data to
+> controlled benchmark, accepted for conference presentation.
 
 ---
 
-## Data Description
+## 05 — Limits and next move
 
-The final dataset included **9,971 sequences**, evenly distributed between exons and introns, from eight genes. The sequences were balanced in quantity and diversity to ensure generalization.
+- **Eight genes.** TTN and NEB contribute 93% of sequences, so results lean on two very large genes.
+  A gene-held-out evaluation would test generalisation to unseen genes.
+- **Cross-study numbers are not a leaderboard.** Organisms, gene sets, encodings and protocols differ.
+- **Most related studies did not release data or code**, which limited external replication.
+- **Next move:** gene-level cross-validation and a three-base-periodicity feature, from the literature
+  below, as a biologically motivated input.
 
-| Gene     | Exons | Introns | Total Sequences | Exonic Bases | Intronic Bases |
-|----------|-------|---------|------------------|---------------|----------------|
-| ANKRD1   | 9     | 8       | 17               | 1,790         | 7,202          |
-| PGK1     | 37    | 31      | 68               | 9,539         | 339,889        |
-| B2M      | 40    | 28      | 68               | 10,553        | 51,222         |
-| GAPDH    | 79    | 68      | 147              | 13,269        | 21,371         |
-| PPIA     | 80    | 62      | 142              | 34,258        | 80,547         |
-| RPLA13A  | 123   | 101     | 224              | 29,782        | 54,231         |
-| NEB      | 844   | 823     | 1,667            | 119,394       | 1,106,064      |
-| TTN      | 3,822 | 3,807   | 7,629            | 1,247,226     | 2,273,905      |
-| **Total**| 5,034 | 4,928   | **9,971**         | 1,469,811     | 3,885,762      |
-
-📂 Data files (FASTA and CSV): [Available here](https://github.com/arielabade/carbon/tree/main/data)
-
----
-
-## Conclusion
-
-The **BI-LSTM** architecture demonstrated superior performance in distinguishing exons from introns, with a final accuracy of **99.80%**. This positions it as a strong candidate for use in bioinformatics pipelines, gene structure analysis, and even medical genomics research.
-
-The project emphasizes:
-- 🔍 Transparency via open-source code and data
-- 🔁 Reproducibility through complete ETL steps
-- 📈 Scientific rigor in metric evaluation and cross-model comparison
-
-## References
+### References
 
 The references below were extracted from the `refs.bib` file in the supplied ZIP archive and checked against the linked publisher, DOI, repository, or conference records. The final column records how each reference relates to this repository's files.
 
@@ -226,24 +175,49 @@ The references below were extracted from the `refs.bib` file in the supplied ZIP
 
 References such as BERT, GPT-4, ResNet-50, GoogleNet, GeneGPT, Ritch et al., and Quazi are retained as broader methodological or biomedical context in the source paper; they are not direct implementations or controlled baselines in this repository.
 
-# 📝 Notes
+---
 
-    This project was developed as part of a research initiative and was accepted for presentation at an international conference in Portugal.
-    To access the full paper, feel free to contact me via email: arielabadebandeira@gmail.com
+## Run it
 
-    One of the main challenges during development was finding comparable research papers with similar approaches and consistent evaluation metrics.
+The model scripts were written for **Google Colab** and read the gene CSVs from `/content/`.
 
-    Another significant difficulty was obtaining reliable and publicly available genomic datasets, especially for cross-testing against other models.
+```bash
+git clone https://github.com/arielabade/carbon
+```
 
-    Most related studies used in-house datasets and unfortunately did not provide access to their training or testing data, nor the full implementation details.
-    As a result, it was difficult to establish fair comparisons or assess how well those external models actually performed in practice.
+1. Open a Colab notebook with a GPU runtime.
+2. Upload the eight files from [`data/csvData/`](data/csvData/) to `/content/`.
+3. Paste and run [`code/biLSTM/carbonFinalModel.py`](code/biLSTM/carbonFinalModel.py), or any baseline in
+   [`code/baselineEvaluation/60epochs/`](code/baselineEvaluation/60epochs/).
 
-📬 For more information, contact: **arielabadebandeira@gmail.com**
+To run locally, `pip install tensorflow pandas numpy scikit-learn matplotlib` and point the file list
+at the top of each script to `data/csvData/`. To rebuild the CSVs from FASTA, set `file_path` and
+`output_file` in [`featureExtraction.py`](data/featureExtraction/featureExtraction.py) first.
+
+The full paper is available on request: **arielabadebandeira@gmail.com**.
+
+## Repository map
+
+```
+data/fastaData/              raw FASTA per gene (Ensembl)
+data/csvData/                parsed, labelled CSV per gene
+data/featureExtraction/      the ETL script
+data/trainTestValidation/    split files
+code/biLSTM/                 final model
+code/baselineEvaluation/     Simple RNN, LSTM, GRU and Bi-LSTM at 30 and 60 epochs
+images/                      split and training-curve figures
+```
 
 ---
 
 <p align="center">
-  <a href="https://github.com/arielabade">Portfolio overview</a>
-  &nbsp;·&nbsp;
-  <a href="https://github.com/arielabade/echo-womens-health-research-analytics">Research analytics</a>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/brand/track-dark.svg">
+    <img alt="ABADE method: validate, scale, retain, build. This repository: build" src="assets/brand/track-light.svg" width="100%">
+  </picture>
+</p>
+
+<p align="center">
+  <a href="https://github.com/arielabade">Portfolio</a> &nbsp;·&nbsp;
+  <a href="https://github.com/arielabade/echo-womens-health-research-analytics">Research analytics →</a>
 </p>
